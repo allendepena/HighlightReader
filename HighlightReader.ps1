@@ -150,7 +150,7 @@ function Show-Notice([string]$title, [string]$message, [System.Windows.Forms.Too
 function Show-SettingsWindow {
     $form = New-Object System.Windows.Forms.Form
     $form.Text = 'Highlight Reader settings'
-    $form.Size = New-Object System.Drawing.Size(470, 425)
+    $form.Size = New-Object System.Drawing.Size(500, 485)
     $form.StartPosition = 'CenterScreen'
     $form.FormBorderStyle = 'FixedDialog'
     $form.MaximizeBox = $false
@@ -179,19 +179,33 @@ function Show-SettingsWindow {
 
     $keyBox = New-Object System.Windows.Forms.TextBox
     $keyBox.Location = New-Object System.Drawing.Point(30, 122)
-    $keyBox.Size = New-Object System.Drawing.Size(395, 28)
+    $keyBox.Size = New-Object System.Drawing.Size(285, 28)
     $keyBox.UseSystemPasswordChar = $true
     $keyBox.Text = Unprotect-Key ([string]$script:settings.EncryptedApiKey)
     $form.Controls.Add($keyBox)
 
+    $keyHelp = New-Object System.Windows.Forms.Button
+    $keyHelp.Text = 'Get an API key'
+    $keyHelp.Size = New-Object System.Drawing.Size(105, 29)
+    $keyHelp.Location = New-Object System.Drawing.Point(320, 121)
+    $keyHelp.Add_Click({ Start-Process 'https://platform.openai.com/api-keys' })
+    $form.Controls.Add($keyHelp)
+
+    $keyInstructions = New-Object System.Windows.Forms.Label
+    $keyInstructions.Text = 'Sign in, select Create new secret key, copy it, then paste it here. Keep the key private.'
+    $keyInstructions.ForeColor = [System.Drawing.Color]::DimGray
+    $keyInstructions.Location = New-Object System.Drawing.Point(27, 153)
+    $keyInstructions.Size = New-Object System.Drawing.Size(410, 38)
+    $form.Controls.Add($keyInstructions)
+
     $voiceLabel = New-Object System.Windows.Forms.Label
     $voiceLabel.Text = 'Voice'
     $voiceLabel.AutoSize = $true
-    $voiceLabel.Location = New-Object System.Drawing.Point(27, 166)
+    $voiceLabel.Location = New-Object System.Drawing.Point(27, 194)
     $form.Controls.Add($voiceLabel)
 
     $voiceBox = New-Object System.Windows.Forms.ComboBox
-    $voiceBox.Location = New-Object System.Drawing.Point(30, 189)
+    $voiceBox.Location = New-Object System.Drawing.Point(30, 217)
     $voiceBox.Size = New-Object System.Drawing.Size(185, 28)
     $voiceBox.DropDownStyle = 'DropDownList'
     [void]$voiceBox.Items.AddRange([object[]]@('alloy','echo','fable','onyx','nova','shimmer'))
@@ -202,11 +216,11 @@ function Show-SettingsWindow {
     $qualityLabel = New-Object System.Windows.Forms.Label
     $qualityLabel.Text = 'Quality'
     $qualityLabel.AutoSize = $true
-    $qualityLabel.Location = New-Object System.Drawing.Point(237, 166)
+    $qualityLabel.Location = New-Object System.Drawing.Point(237, 194)
     $form.Controls.Add($qualityLabel)
 
     $qualityBox = New-Object System.Windows.Forms.ComboBox
-    $qualityBox.Location = New-Object System.Drawing.Point(240, 189)
+    $qualityBox.Location = New-Object System.Drawing.Point(240, 217)
     $qualityBox.Size = New-Object System.Drawing.Size(185, 28)
     $qualityBox.DropDownStyle = 'DropDownList'
     [void]$qualityBox.Items.AddRange([object[]]@('Fast','High quality'))
@@ -216,11 +230,11 @@ function Show-SettingsWindow {
     $speedLabel = New-Object System.Windows.Forms.Label
     $speedLabel.Text = 'Reading speed'
     $speedLabel.AutoSize = $true
-    $speedLabel.Location = New-Object System.Drawing.Point(27, 235)
+    $speedLabel.Location = New-Object System.Drawing.Point(27, 263)
     $form.Controls.Add($speedLabel)
 
     $speedBox = New-Object System.Windows.Forms.NumericUpDown
-    $speedBox.Location = New-Object System.Drawing.Point(145, 232)
+    $speedBox.Location = New-Object System.Drawing.Point(145, 260)
     $speedBox.Size = New-Object System.Drawing.Size(70, 28)
     $speedBox.DecimalPlaces = 1
     $speedBox.Increment = [decimal]0.1
@@ -232,21 +246,21 @@ function Show-SettingsWindow {
     $startupBox = New-Object System.Windows.Forms.CheckBox
     $startupBox.Text = 'Start Highlight Reader when I sign in'
     $startupBox.AutoSize = $true
-    $startupBox.Location = New-Object System.Drawing.Point(30, 277)
+    $startupBox.Location = New-Object System.Drawing.Point(30, 305)
     $startupBox.Checked = [bool]$script:settings.StartWithWindows
     $form.Controls.Add($startupBox)
 
     $privacy = New-Object System.Windows.Forms.Label
-    $privacy.Text = 'Your key is encrypted for your Windows account. Highlighted text is sent to OpenAI to create the audio.'
+    $privacy.Text = 'Your key is encrypted for your Windows account. Highlighted text is sent to OpenAI to create audio. API usage may cost money and is billed separately from ChatGPT.'
     $privacy.ForeColor = [System.Drawing.Color]::DimGray
-    $privacy.Location = New-Object System.Drawing.Point(27, 308)
-    $privacy.Size = New-Object System.Drawing.Size(400, 40)
+    $privacy.Location = New-Object System.Drawing.Point(27, 336)
+    $privacy.Size = New-Object System.Drawing.Size(420, 55)
     $form.Controls.Add($privacy)
 
     $save = New-Object System.Windows.Forms.Button
     $save.Text = 'Save'
     $save.Size = New-Object System.Drawing.Size(95, 34)
-    $save.Location = New-Object System.Drawing.Point(330, 350)
+    $save.Location = New-Object System.Drawing.Point(350, 400)
     $save.DialogResult = [System.Windows.Forms.DialogResult]::OK
     $form.AcceptButton = $save
     $form.Controls.Add($save)
@@ -294,6 +308,8 @@ function Get-SelectedText {
 }
 
 function Read-HighlightedText {
+    # Reload settings so changes made with Edit Settings take effect immediately.
+    $script:settings = Get-Settings
     Write-Log 'Ctrl+Shift+R detected.'
     Show-Notice 'Hotkey detected' 'Copying your highlighted text...'
     $apiKey = Unprotect-Key ([string]$script:settings.EncryptedApiKey)
@@ -356,6 +372,13 @@ $settingsItem.Add_Click({ Show-SettingsWindow })
 $stopItem.Add_Click({ try { $script:player.Stop() } catch { } })
 $exitItem.Add_Click({ [System.Windows.Forms.Application]::Exit() })
 
+if ($ShowSettings) {
+    Show-SettingsWindow
+    $notify.Visible = $false
+    $notify.Dispose()
+    exit
+}
+
 $window = New-Object HotkeyWindow
 $window.add_HotkeyPressed({ Read-HighlightedText })
 $window.Add_FormClosed({ $notify.Visible = $false; $notify.Dispose() })
@@ -365,7 +388,7 @@ try {
     if (-not $window.HotkeyRegistered) {
         throw 'Another Highlight Reader is already running. Exit the old copy from the taskbar tray, then start this one again.'
     }
-    if ($ShowSettings -or [string]::IsNullOrWhiteSpace([string]$script:settings.EncryptedApiKey)) { Show-SettingsWindow }
+    if ([string]::IsNullOrWhiteSpace([string]$script:settings.EncryptedApiKey)) { Show-SettingsWindow }
     Write-Log 'Highlight Reader started and registered Ctrl+Shift+R.'
     Show-Notice 'Highlight Reader is running' 'Highlight text anywhere and press Ctrl+Shift+R.'
     [System.Windows.Forms.Application]::Run($window)

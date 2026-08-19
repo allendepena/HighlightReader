@@ -6,6 +6,12 @@ SETUP
 2. Paste your OpenAI API key into the setup window.
 3. Choose a voice and click Save.
 
+CHANGE SETTINGS LATER
+Double-click "Edit Settings.vbs". Changes apply to the next reading, even if Highlight Reader is already running.
+
+API KEY HELP
+Open https://platform.openai.com/api-keys, sign in, choose Create new secret key, copy it, and paste it into settings. Keep it private. API billing is separate from ChatGPT and usage may cost money.
+
 USE
 1. Highlight text in almost any Windows app.
 2. Press Ctrl + Shift + R.

@@ -1,6 +1,10 @@
 # Highlight Reader
 
+**AI Text to Speech for Windows**
+
 Highlight text in almost any Windows app, press **Ctrl + Shift + R**, and hear it read aloud with OpenAI text-to-speech.
+
+![Highlight Reader settings](screenshots/settings.png)
 
 ## Install and start
 
@@ -20,6 +24,8 @@ Installation creates a **Highlight Reader** desktop icon. Double-clicking it ope
 5. If the account has no API balance, open [Billing](https://platform.openai.com/settings/organization/billing/overview) and add credits or a payment method.
 
 Treat the API key like a password: do not post it online, commit it to GitHub, or share it. OpenAI API usage may cost money and is billed separately from ChatGPT subscriptions.
+
+Read the full [Privacy Notice](PRIVACY.md). Highlight Reader is available under the [MIT License](LICENSE).
 
 ## Use the app
 
@@ -42,3 +48,7 @@ Use **Windows Settings > Apps > Installed apps > Highlight Reader > Uninstall**,
 - Use the tray icon's **Stop speaking** or **Exit** command.
 - If the app is hidden or the hotkey is busy, run **Stop Highlight Reader.vbs**, then start the app once.
 - Diagnostic logs are stored at `%LOCALAPPDATA%\HighlightReader\HighlightReader.log`.
+
+## Support
+
+Use [GitHub Issues](https://github.com/allendepena/HighlightReader/issues) to report a problem or suggest a feature.

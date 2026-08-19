@@ -44,7 +44,9 @@ try {
         'Stop Highlight Reader.ps1',
         'Stop Highlight Reader.vbs',
         'Uninstall Highlight Reader.ps1',
-        'README.md'
+        'README.md',
+        'PRIVACY.md',
+        'LICENSE'
     )
     foreach ($file in $files) {
         Copy-Item -LiteralPath (Join-Path $sourceDir $file) -Destination (Join-Path $installDir $file) -Force
@@ -67,7 +69,7 @@ try {
 
     New-Item -Path $uninstallRegistryPath -Force | Out-Null
     New-ItemProperty -Path $uninstallRegistryPath -Name DisplayName -Value 'Highlight Reader' -PropertyType String -Force | Out-Null
-    New-ItemProperty -Path $uninstallRegistryPath -Name DisplayVersion -Value '1.0.0' -PropertyType String -Force | Out-Null
+    New-ItemProperty -Path $uninstallRegistryPath -Name DisplayVersion -Value '1.0.0-beta' -PropertyType String -Force | Out-Null
     New-ItemProperty -Path $uninstallRegistryPath -Name Publisher -Value 'Allen Depena' -PropertyType String -Force | Out-Null
     New-ItemProperty -Path $uninstallRegistryPath -Name InstallLocation -Value $installDir -PropertyType String -Force | Out-Null
     New-ItemProperty -Path $uninstallRegistryPath -Name DisplayIcon -Value "$env:SystemRoot\System32\shell32.dll,168" -PropertyType String -Force | Out-Null

@@ -2,9 +2,13 @@ HIGHLIGHT READER
 ================
 
 SETUP
-1. Double-click "Start Highlight Reader.vbs".
+1. Double-click "Install Highlight Reader.vbs".
 2. Paste your OpenAI API key into the setup window.
 3. Choose a voice and click Save.
+4. Use the desktop Highlight Reader icon to change settings later.
+
+UNINSTALL
+Open Start > Highlight Reader > Uninstall Highlight Reader.
 
 CHANGE SETTINGS LATER
 Double-click "Edit Settings.vbs". Changes apply to the next reading, even if Highlight Reader is already running.

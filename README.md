@@ -5,9 +5,11 @@ Highlight text in almost any Windows app, press **Ctrl + Shift + R**, and hear i
 ## Install and start
 
 1. Download the project ZIP and extract it.
-2. Keep all files together in the extracted folder.
-3. Double-click **Start Highlight Reader.vbs**.
+2. Double-click **Install Highlight Reader.vbs**.
+3. Confirm the installation.
 4. Complete the settings window, then select **Save**.
+
+Installation creates a **Highlight Reader** desktop icon. Double-clicking it opens the settings window. The app itself runs quietly in the system tray.
 
 ## Create an OpenAI API key
 
@@ -30,6 +32,10 @@ Treat the API key like a password: do not post it online, commit it to GitHub, o
 Double-click **Edit Settings.vbs** at any time. You can change the API key, voice, quality, reading speed, and whether the app starts when you sign in. Changes apply to the running app on the next reading.
 
 You can also double-click the Highlight Reader tray icon or right-click it and select **Settings**.
+
+## Uninstall
+
+Use **Windows Settings > Apps > Installed apps > Highlight Reader > Uninstall**, or open the Start menu and choose **Highlight Reader > Uninstall Highlight Reader**. The uninstaller lets you keep or delete saved settings and the encrypted API key.
 
 ## Stop or troubleshoot
 

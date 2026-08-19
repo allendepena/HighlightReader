@@ -136,7 +136,7 @@ function Set-Startup([bool]$enabled) {
 $script:settings = Get-Settings
 $script:player = New-Object System.Media.SoundPlayer
 $notify = New-Object System.Windows.Forms.NotifyIcon
-$notify.Text = 'Highlight Reader - Ctrl+Shift+R'
+$notify.Text = 'Highlight Reader - double-click for settings'
 $notify.Icon = [System.Drawing.SystemIcons]::Information
 $notify.Visible = $true
 
@@ -357,7 +357,7 @@ function Read-HighlightedText {
         Show-Notice 'Could not create speech' $message ([System.Windows.Forms.ToolTipIcon]::Error)
         [System.Windows.Forms.MessageBox]::Show($message, 'Highlight Reader could not speak', 'OK', 'Error') | Out-Null
     } finally {
-        $notify.Text = 'Highlight Reader - Ctrl+Shift+R'
+    $notify.Text = 'Highlight Reader - double-click for settings'
     }
 }
 
@@ -390,7 +390,7 @@ try {
     }
     if ([string]::IsNullOrWhiteSpace([string]$script:settings.EncryptedApiKey)) { Show-SettingsWindow }
     Write-Log 'Highlight Reader started and registered Ctrl+Shift+R.'
-    Show-Notice 'Highlight Reader is running' 'Highlight text anywhere and press Ctrl+Shift+R.'
+    Show-Notice 'Highlight Reader is running' 'Highlight text and press Ctrl+Shift+R. Double-click the tray icon for settings.'
     [System.Windows.Forms.Application]::Run($window)
 } catch {
     $notify.Visible = $false
